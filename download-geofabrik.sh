@@ -18,9 +18,13 @@ rm -f *.mbtiles
 rm -f *.txt
 rm -f *.yml
 
-download-geofabrik update
-download-geofabrik -v download $AREA
- 
+if [ $AREA = "planet" ]; then
+  wget https://planet.osm.org/pbf/planet-latest.osm.pbf -O ${AREA}.osm.pbf
+else
+  download-geofabrik update
+  download-geofabrik -v download $AREA
+fi
+
 ls *.osm.pbf  -la
 osmconvert  --out-statistics  ${AREA}.osm.pbf  > ./osmstat.txt
 
